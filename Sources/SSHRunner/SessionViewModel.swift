@@ -84,6 +84,13 @@ final class SessionViewModel: ObservableObject {
         session?.send(data)
     }
 
+    func sendCommand(_ text: String) {
+        guard isConnected, !text.isEmpty else { return }
+        let bytes = Array((text + "\n").utf8)
+        session?.send(bytes[...])
+        terminalView?.window?.makeFirstResponder(terminalView)
+    }
+
     func terminalSizeChanged(cols: Int, rows: Int) {
         session?.resize(cols: cols, rows: rows)
     }

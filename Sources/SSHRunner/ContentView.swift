@@ -4,6 +4,7 @@ struct ContentView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
     @StateObject private var viewModel = SessionViewModel()
     @State private var showingSavedProfiles = false
+    @State private var showingGoTo = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -63,6 +64,15 @@ struct ContentView: View {
                     }
                     .disabled(!viewModel.canConnect)
                     .keyboardShortcut(.defaultAction)
+                }
+
+                if viewModel.isConnected {
+                    Button("Go To") {
+                        showingGoTo.toggle()
+                    }
+                    .popover(isPresented: $showingGoTo) {
+                        GoToPopover(viewModel: viewModel, isPresented: $showingGoTo)
+                    }
                 }
 
                 if viewModel.isBusy {
