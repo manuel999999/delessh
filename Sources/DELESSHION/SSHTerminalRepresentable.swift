@@ -1,52 +1,44 @@
 import SwiftUI
 import SwiftTerm
 
-/// Bridges SwiftTerm's AppKit `TerminalView` (a full VT100/xterm emulator)
-/// into SwiftUI. Keystrokes go out through the delegate's `send`; incoming
-/// SSH output is fed in directly via `SessionViewModel.attachTerminal`.
+/// Bridges SwiftTerm's AppKit `LocalProcessTerminalView` (a full VT100/xterm
+/// emulator wired to a real pty-backed child process) into SwiftUI.
+/// `LocalProcessTerminalView` owns `terminalDelegate` itself and reposts the
+/// messages we care about to `processDelegate` — see its doc comment.
 struct SSHTerminalRepresentable: NSViewRepresentable {
     @ObservedObject var viewModel: SessionViewModel
 
-    func makeNSView(context: Context) -> TerminalView {
-        let terminalView = TerminalView(frame: .zero)
-        terminalView.terminalDelegate = context.coordinator
+    func makeNSView(context: Context) -> SSHProcessTerminalView {
+        let terminalView = SSHProcessTerminalView(frame: .zero)
+        terminalView.processDelegate = context.coordinator
         viewModel.attachTerminal(terminalView)
         return terminalView
     }
 
-    func updateNSView(_ nsView: TerminalView, context: Context) {}
+    func updateNSView(_ nsView: SSHProcessTerminalView, context: Context) {}
 
     func makeCoordinator() -> Coordinator {
         Coordinator(viewModel: viewModel)
     }
 
-    final class Coordinator: NSObject, TerminalViewDelegate {
+    final class Coordinator: NSObject, LocalProcessTerminalViewDelegate {
         private let viewModel: SessionViewModel
 
         init(viewModel: SessionViewModel) {
             self.viewModel = viewModel
         }
 
-        func sizeChanged(source: TerminalView, newCols: Int, newRows: Int) {
-            let viewModel = viewModel
-            Task { @MainActor in
-                viewModel.terminalSizeChanged(cols: newCols, rows: newRows)
-            }
-        }
+        func sizeChanged(source: LocalProcessTerminalView, newCols: Int, newRows: Int) {}
 
-        func setTerminalTitle(source: TerminalView, title: String) {}
+        func setTerminalTitle(source: LocalProcessTerminalView, title: String) {}
 
         func hostCurrentDirectoryUpdate(source: TerminalView, directory: String?) {}
 
-        func send(source: TerminalView, data: ArraySlice<UInt8>) {
+        func processTerminated(source: TerminalView, exitCode: Int32?) {
             let viewModel = viewModel
             Task { @MainActor in
-                viewModel.sendInput(data)
+                viewModel.handleProcessTerminated(exitCode: exitCode)
             }
         }
-
-        func scrolled(source: TerminalView, position: Double) {}
-
-        func rangeChanged(source: TerminalView, startY: Int, endY: Int) {}
     }
 }

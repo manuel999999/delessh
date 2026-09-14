@@ -92,11 +92,6 @@ struct ContentView: View {
                         .frame(minWidth: 140)
                 }
 
-                if viewModel.isBusy {
-                    ProgressView()
-                        .controlSize(.small)
-                }
-
                 Spacer()
 
                 Circle()
