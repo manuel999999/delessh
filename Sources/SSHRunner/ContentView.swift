@@ -5,6 +5,8 @@ struct ContentView: View {
     @StateObject private var viewModel = SessionViewModel()
     @State private var showingSavedProfiles = false
     @State private var showingGoTo = false
+    @State private var showingExtractor = false
+    @State private var extractorInput = ""
 
     var body: some View {
         VStack(spacing: 0) {
@@ -73,6 +75,21 @@ struct ContentView: View {
                     .popover(isPresented: $showingGoTo) {
                         GoToPopover(viewModel: viewModel, isPresented: $showingGoTo)
                     }
+
+                    Button("Extractor") {
+                        if !extractorInput.isEmpty {
+                            showingExtractor = true
+                        }
+                    }
+                    .popover(isPresented: $showingExtractor) {
+                        ExtractorPopover(
+                            items: extractorInput.split(separator: " ").map(String.init),
+                            isPresented: $showingExtractor
+                        )
+                    }
+
+                    TextField("Extractor text", text: $extractorInput)
+                        .frame(minWidth: 140)
                 }
 
                 if viewModel.isBusy {
