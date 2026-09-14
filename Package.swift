@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "SSHRunner",
+    name: "DELESSHION",
     platforms: [
         .macOS(.v14)
     ],
@@ -13,7 +13,7 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "SSHRunner",
+            name: "DELESSHION",
             dependencies: [
                 .product(name: "NIOCore", package: "swift-nio"),
                 .product(name: "NIOPosix", package: "swift-nio"),

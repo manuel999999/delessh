@@ -34,11 +34,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
 }
 
 @main
-struct SSHRunnerApp: App {
+struct DELESSHIONApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        WindowGroup {
+        WindowGroup("DELESSHION") {
             ContentView()
                 .environmentObject(appDelegate)
         }

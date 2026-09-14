@@ -5,20 +5,40 @@
             "request": "launch",
             "args": [],
             "cwd": "${workspaceFolder:DELETION}",
-            "name": "Debug SSHRunner",
-            "target": "SSHRunner",
+            "name": "Debug DELESSHION",
+            "target": "DELESSHION",
             "configuration": "debug",
-            "preLaunchTask": "swift: Build Debug SSHRunner"
+            "preLaunchTask": "swift: Build Debug DELESSHION"
         },
         {
             "type": "swift",
             "request": "launch",
             "args": [],
             "cwd": "${workspaceFolder:DELETION}",
-            "name": "Release SSHRunner",
-            "target": "SSHRunner",
+            "name": "Release DELESSHION",
+            "target": "DELESSHION",
             "configuration": "release",
-            "preLaunchTask": "swift: Build Release SSHRunner"
+            "preLaunchTask": "swift: Build Release DELESSHION"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:DELETION}",
+            "name": "Debug DELESSHION",
+            "target": "DELESSHION",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug DELESSHION"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:DELETION}",
+            "name": "Release DELESSHION",
+            "target": "DELESSHION",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release DELESSHION"
         }
     ]
 }
