@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:DELETION}",
+            "name": "Debug SSHRunner",
+            "target": "SSHRunner",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug SSHRunner"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:DELETION}",
+            "name": "Release SSHRunner",
+            "target": "SSHRunner",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release SSHRunner"
+        }
+    ]
+}
