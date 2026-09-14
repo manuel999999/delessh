@@ -18,6 +18,18 @@ rm -rf "${APP_DIR}"
 mkdir -p "${APP_DIR}/Contents/MacOS" "${APP_DIR}/Contents/Resources"
 cp ".build/release/${APP_NAME}" "${APP_DIR}/Contents/MacOS/${APP_NAME}"
 
+if [[ -f "Resources/AppIcon.png" ]]; then
+    echo "Building app icon..."
+    ICONSET="$(mktemp -d)/AppIcon.iconset"
+    mkdir -p "${ICONSET}"
+    for sz in 16 32 128 256 512; do
+        sips -z "${sz}" "${sz}" Resources/AppIcon.png --out "${ICONSET}/icon_${sz}x${sz}.png" >/dev/null
+        sips -z "$((sz * 2))" "$((sz * 2))" Resources/AppIcon.png --out "${ICONSET}/icon_${sz}x${sz}@2x.png" >/dev/null
+    done
+    iconutil -c icns "${ICONSET}" -o "${APP_DIR}/Contents/Resources/AppIcon.icns"
+    rm -rf "$(dirname "${ICONSET}")"
+fi
+
 cat > "${APP_DIR}/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -29,6 +41,8 @@ cat > "${APP_DIR}/Contents/Info.plist" <<PLIST
     <string>${APP_NAME}</string>
     <key>CFBundleIdentifier</key>
     <string>${BUNDLE_ID}</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
     <key>CFBundleExecutable</key>
     <string>${APP_NAME}</string>
     <key>CFBundlePackageType</key>
