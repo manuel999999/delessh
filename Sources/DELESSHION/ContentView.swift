@@ -76,6 +76,10 @@ struct ContentView: View {
                         GoToPopover(viewModel: viewModel, isPresented: $showingGoTo)
                     }
 
+                    Button("ls") {
+                        viewModel.sendCommand("ls")
+                    }
+
                     Button("Extractor") {
                         if !extractorInput.isEmpty {
                             showingExtractor = true
