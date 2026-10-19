@@ -8,7 +8,8 @@ struct GoToPopover: View {
     private let quickPaths = [
         "/var/www/html/webgltest",
         "/var/www/html/stolltest",
-        "/var/www/html/naturekasttest"
+        "/var/www/html/naturekasttest",
+        "/var/www/html/weatherstrong"
     ]
 
     var body: some View {
